@@ -1,5 +1,7 @@
 // Include React
 var React = require("react");
+var axios = require('axios');
+
 
 // Here we include all of the sub-components
 var Form = require("./children/Form");
@@ -14,14 +16,20 @@ var Main = React.createClass({
 
   // Here we set a generic state associated with the number of clicks
   // Note how we added in this history state variable
-  getInitialState: function() {
-    return { searchTerm: "", results: "", history: [] };
+  getInitialState: function () {
+    return { searchTerm: "", results: [], history: [], savedArticles: [],
+  topic: "", 
+startYr: "",
+endYr: ""
+ };
   },
 
+  // DID - loads after loading? 
   // The moment the page renders get the History
-  componentDidMount: function() {
-    // Get the latest history.
-    helpers.getHistory().then(function(response) {
+   // Get the latest history.
+  componentDidMount: function () {
+   
+    helpers.getArticle().then(function (response) {
       console.log(response);
       if (response !== this.state.history) {
         console.log("History", response.data);
@@ -29,67 +37,104 @@ var Main = React.createClass({
       }
     }.bind(this));
   },
-
+	// componentDidMount: function(){
+	// 	axios.get('/api/saved')
+	// 		.then(function(response){
+	// 			this.setState({
+	// 				savedArticles: response.data
+	// 			});
+	// 		}.bind(this));
+	// },
   // If the component changes (i.e. if a search is entered)...
-  componentDidUpdate: function() {
+  componentDidUpdate: function () {
 
     // Run the query for the address
-    helpers.runQuery(this.state.searchTerm).then(function(data) {
+    helpers.runQuery(this.state.topic, this.state.startYr, this.state.endYr).then(function (data) {
       if (data !== this.state.results) {
         console.log("Address", data);
+        
+        
         this.setState({ results: data });
 
         // After we've received the result... then post the search term to our history.
-        helpers.postHistory(this.state.searchTerm).then(function() {
-          console.log("Updated!");
+        // helpers.postArticle(this.state.searchTerm).then(function () {
+        //   console.log("Updated!");
 
           // After we've done the post... then get the updated history
-          helpers.getHistory().then(function(response) {
-            console.log("Current History", response.data);
+        //   helpers.getHistory().then(function (response) {
+        //     console.log("Current History", response.data);
 
-            console.log("History", response.data);
+        //     console.log("History", response.data);
 
-            this.setState({ history: response.data });
+        //     this.setState({ history: response.data });
 
-          }.bind(this));
-        }.bind(this));
+        //   }.bind(this));
+        // }.bind(this));
       }
     }.bind(this));
   },
+
+  	getArticle: function(){
+		axios.get('/api/saved')
+			.then(function(response){
+				this.setState({
+					savedArticles: response.data
+				});
+			}.bind(this));
+	},
+
+  	saveArticle: function(result){
+     console.log("what i'll save: " +result.headline.main, result.date, result.web_url)
+		helpers.postArticle(result.headline.main, result.date, result.web_url);
+    // console.log("article saved!" + this.state.savedArticles )
+		// this.getArticle();
+	},
   // This function allows childrens to update the parent.
-  setTerm: function(term) {
-    this.setState({ searchTerm: term });
+  setTerm: function (topic, startYr, endYr) {
+    this.setState({ 
+      topic: topic,
+      startYr: startYr,
+      endYr: endYr
+     });
   },
   // Here we render the function
-  render: function() {
+  render: function () {
     return (
       <div className="container">
         <div className="row">
           <div className="jumbotron">
-            <h2 className="text-center">Address Finder!</h2>
+            <h2 className="text-center">New York Times Article Subscriber</h2>
             <p className="text-center">
-              <em>Enter a landmark to search for its exact address (ex: "Eiffel Tower").</em>
+              <em>Search for and annotated articles of interest</em>
             </p>
           </div>
+          <div className="row">
+            <div className="col-md-8 col-md-offset-2">
 
-          <div className="col-md-6">
+    {/* FORM - FIRST PAGE */}
+              <Form setTerm={this.setTerm} />
 
-            <Form setTerm={this.setTerm} />
-
+            </div>
           </div>
+        </div>
+        <div className="row">
 
-          <div className="col-md-6">
 
-            <Results address={this.state.results} />
+          <div className="col-md-8 col-md-offset-2">
 
+{/* RESULTS - SECOND PAGE */}
+
+            <Results results={this.state.results} saveArticle ={this.saveArticle} />
           </div>
 
         </div>
-
         <div className="row">
+          <div className="col-md-8 col-md-offset-2">
 
-          <History history={this.state.history} />
+{/* HISTORY - THIRD PAGE */}
 
+            <History history={this.state.history} />
+          </div>
         </div>
 
       </div>
