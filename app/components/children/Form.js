@@ -6,27 +6,24 @@ var Form = React.createClass({
 
   // Here we set a generic state associated with the text being searched for
   getInitialState: function () {
-    return { term: "", 
-    startYr: "", 
-    endYr: "" 
-  };
+    return {
+      term: "",
+      startYr: "",
+      endYr: ""
+    };
   },
 
   // This function will respond to the user input
   handleChange: function (event) {
-    
+
     // capture query input
 
-    var newState ={}
+    var newState = {}
     newState[event.target.id] = event.target.value;
     this.setState(newState);
 
     console.log(newState)
 
-    // this.setState({ term: event.target.value, 
-    //  startYr: event.target.value});
-    
-    // this.setState({ term: event.target.value, startYr: event.target.value, endYr: event.target.value });
   },
 
   // When a user submits...
@@ -39,6 +36,8 @@ var Form = React.createClass({
     this.props.setTerm(this.state.term, this.state.startYr, this.state.endYr);
 
   },
+
+
   // Here we describe this component's render method
   render: function () {
     return (
@@ -81,8 +80,8 @@ var Form = React.createClass({
 
             {/* INPUT TWO */}
 
-       
-             <div className="form-group">
+
+            <div className="form-group">
               <h4 className="">
                 <strong>Start Year</strong>
               </h4>
@@ -96,7 +95,7 @@ var Form = React.createClass({
               />
             </div>
             <br />
-       
+
             {/* INPUT THREE */}
 
             <div className="form-group">
@@ -123,16 +122,18 @@ var Form = React.createClass({
             >
               Search
             </button>
-           
-          
-          {/* form handlesubmit */}
+
+
+            {/* form handlesubmit */}
           </form>
-        {/*classname panel - body */}
+          {/*classname panel - body */}
+        </div>
       </div>
-      </div >
+
+
     );
   }
+
 });
 
-// Export the component back for use in other files
 module.exports = Form;

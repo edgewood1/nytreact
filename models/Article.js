@@ -3,13 +3,13 @@ var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
   title: {
-    type: String, 
-    trim: true, 
+    type: String
+    // trim: true, 
     // required: true
   },
   date: {
-    type: Date,
-    trim: true,
+    type: String
+    // trim: true,
     // required: true
 
   },
@@ -19,5 +19,5 @@ var ArticleSchema = new Schema({
   }
 });
 
-var Article = mongoose.model("History", ArticleSchema);
+var Article = mongoose.model("Article", ArticleSchema);
 module.exports = Article;

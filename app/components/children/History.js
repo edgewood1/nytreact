@@ -4,23 +4,36 @@ var React = require("react");
 // This is the History component. It will be used to show a log of  recent searches.
 var History = React.createClass({
   // Here we describe this component's render method
-  render: function() {
-    return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title text-center">Search History</h3>
-        </div>
-        <div className="panel-body text-center">
 
-          {/* Here we use a map function to loop through an array in JSX */}
-          {this.props.history.map(function(search, i) {
-            return (
-              <p key={i}>{search.location} - {search.date}</p>
-            );
-          })}
-        </div>
-      </div>
+  handleClick1: function (result, e) {
+    console.log("Clicked! " +
+      result._id + "  " +
+      result.title
     );
+    this.props.deleteArticle(result);
+  },
+
+  render: function () {
+    return (
+
+      <div>
+        {this.props.history.map(function (search, i) {
+          var boundClick1 = this.handleClick1.bind(this, search);
+
+          return (
+            <div>
+              <p> TITLE: {search.title} - DATE: {search.date}</p>
+              <p>URL: {search.url}</p>
+              <button key={search._id} onClick={boundClick1}> delete </button>
+              <p> _________________________________</p>
+            </div>
+
+          );
+        }.bind(this)
+        )
+        }
+      </div>
+    )
   }
 });
 
