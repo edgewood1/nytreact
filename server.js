@@ -11,8 +11,7 @@ var Article = require("./models/Article.js");
 
 // Create Instance of Express
 var app = express();
-// Sets an initial port. We'll use this later in our listener
-var PORT = process.env.PORT || 3000;
+
 
 // Run Morgan for Logging
 app.use(logger("dev"));
@@ -29,9 +28,18 @@ app.use(express.static("public"));
 
 // -------------------------------------------------
 
+// Sets an initial port. We'll use this later in our listener
+var PORT = process.env.PORT || 3000;
+
+var uristring =
+    process.env.MONGODB_URI ||
+
+    mongoose.connect(uristring);
+db = mongoose.connection;
+
 // MongoDB Configuration configuration (Change this URL to your own DB)
-mongoose.connect("mongodb://localhost/articles");
-var db = mongoose.connection;
+// mongoose.connect("mongodb://localhost/articles");
+// var db = mongoose.connection;
 
 db.on("error", function (err) {
   console.log("Mongoose Error: ", err);
