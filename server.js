@@ -12,7 +12,7 @@ var Article = require("./models/Article.js");
 // Create Instance of Express
 var app = express();
 // Sets an initial port. We'll use this later in our listener
-// var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3000;
 
 // Run Morgan for Logging
 app.use(logger("dev"));
@@ -100,10 +100,10 @@ app.post('/api/saved', function (req, res) {
 // -------------------------------------------------
 
 // Listener - was
-// app.listen(PORT, function() {
-//   console.log("App listening on PORT: " + PORT);
-// });
-
-app.listen(3000, function () {
-  console.log("App running on port 3000!");
+app.listen(PORT, function() {
+  console.log("App listening on PORT: " + PORT);
 });
+
+// app.listen(3000, function () {
+//   console.log("App running on port 3000!");
+// });
