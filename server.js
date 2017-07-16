@@ -33,7 +33,7 @@ var PORT = process.env.PORT || 3000;
 
 var uristring =
     process.env.MONGODB_URI ||
-
+"mongodb://heroku_cr84mxtx:7p4nu1um5p8a8lfj2csbr7pi7t@ds161262.mlab.com:61262/heroku_cr84mxtx"
     mongoose.connect(uristring);
 db = mongoose.connection;
 
