@@ -11,10 +11,10 @@ var helpers = {
   runQuery: function (topic, beginYr, endYr) {
     var date = "0101";
     parseInt(date);
-    beginYr = date + beginYr;
-    endYr = date + endYr;
+    beginYr = beginYr + date;
+    endYr = endYr + date;
 
-    var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=9189e6ca2509411491bbcfd0a29c3ee9&q=" + topic + "&begin_date=" + beginYr + "&end_date=" + endYr;
+    var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key="+ apiKey + "&q=" + topic + "&begin_date=" + beginYr + "&end_date=" + endYr;
 
 
     return axios.get(queryUrl).then(function (response) {
@@ -23,7 +23,7 @@ var helpers = {
       var newResults = [];
       var fullResults = response.data.response.docs;
       var counter = 0;
-
+console.log(fullResults)
       //Gets first 5 articles that have all 3 components
       for (var i = 0; i < fullResults.length; i++) {
         newResults.push(fullResults[i])

@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // -------------------------------------------------
 
 // Sets an initial port. We'll use this later in our listener
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3005;
 
 var uristring =
     process.env.MONGODB_URI ||
